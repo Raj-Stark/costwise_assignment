@@ -2,12 +2,10 @@ import React from "react";
 import { useGlobalContext } from "../context/CalenderContext";
 
 const CalenderPage = () => {
-  const { weekDays, monthArr } = useGlobalContext();
+  const { weekDays, monthArray } = useGlobalContext();
 
   return (
     <div className=" bg-red-600">
-
-   
       <div className=" text-white  grid grid-cols-7 grid-rows-7  justify-items-center  pt-24 px-10  ">
         {weekDays.map((day, i) => {
           return (
@@ -19,7 +17,7 @@ const CalenderPage = () => {
             </div>
           );
         })}
-        {monthArr.map((item, i) => {
+        {monthArray.map((item, i) => {
           return (
             <div
               key={i}
@@ -32,9 +30,7 @@ const CalenderPage = () => {
           );
         })}
       </div>
-
-      </div>
-
+    </div>
   );
 };
 

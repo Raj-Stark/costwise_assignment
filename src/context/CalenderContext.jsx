@@ -12,50 +12,31 @@ const weekDays = [
   "Saturday",
 ];
 
-const AppState = {};
+const AppState = {
+  monthArray: [],
+};
 export const CalenderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, AppState);
 
   const [monthArr, setMonthArr] = useState([]);
+  let dt = new Date();
 
-  function load() {
-    const dt = new Date();
+  useEffect(() => {
+    renderCurrentMonth(dt);
+  }, []);
 
-    const day = dt.getDate();
-    const month = dt.getMonth();
-    const year = dt.getFullYear();
+  const renderCurrentMonth = (dateObj) => {
+    dispatch({ type: "RENDER_C_MONTH", payload: dateObj });
+  };
 
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = new Date(year, month, 1);
 
-    const firstDay = firstDayOfMonth.getDay();
 
-    const paddingDays = firstDay;
-
-    const dummyArray = [];
-
-    for (let i = 1; i <= paddingDays + daysInMonth; i++) {
-      if (i <= paddingDays) {
-        dummyArray.push("");
-      } else {
-        dummyArray.push(i - paddingDays);
-      }
-    }
-
-     setMonthArr(dummyArray);
-
-    console.log(weekDays[firstDay]);
-
-    const dayString = firstDayOfMonth.toLocaleString("en-US");
-  }
-
-  useEffect(()=>{
-    load();
-  },[])
-
+  console.log(state);
 
   return (
-    <AppContext.Provider value={{ weekDays , monthArr }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ ...state, weekDays, monthArr }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 

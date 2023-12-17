@@ -23,8 +23,6 @@ export const CalenderContextProvider = ({ children }) => {
 
   useEffect(() => {
     renderCurrentMonth();
-
-    console.log(state.dateObj.getMonth());
   }, [state.currentMonthIdx]);
 
   const renderCurrentMonth = () => {

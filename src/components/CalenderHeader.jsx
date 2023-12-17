@@ -9,8 +9,6 @@ const CalenderHeader = () => {
       month: "long",
     })} ${dateObj.getFullYear()}`;
 
-    console.log(monthAndYear);
-
     return monthAndYear;
   };
   return (

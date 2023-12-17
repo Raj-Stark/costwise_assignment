@@ -5,9 +5,7 @@ import "./index.css";
 import { CalenderContextProvider } from "./context/CalenderContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <CalenderContextProvider>
-      <App />
-    </CalenderContextProvider>
-  </React.StrictMode>
+  <CalenderContextProvider>
+    <App />
+  </CalenderContextProvider>
 );

@@ -45,6 +45,7 @@ export const AppReducer = (state, action) => {
     let newMonth = currentMonth + counter;
     let newYear = currentYear;
 
+    
     console.log(newMonth , newYear)
 
     if (newMonth < 0) {
@@ -54,6 +55,8 @@ export const AppReducer = (state, action) => {
       newMonth -= 12;
       newYear++;
     }
+
+    console.log(newMonth , newYear)
 
     dateObj.setMonth(newMonth);
     dateObj.setFullYear(newYear);

@@ -12,14 +12,14 @@ const CalenderHeader = () => {
     return monthAndYear;
   };
   return (
-    <div className=" bg-red-400 p-4 px-10 mt-16 h-10 flex justify-between items-center">
+    <div className="p-4 mt-16 h-10 flex justify-between items-center">
       <button
         className=" px-6 bg-green-600  rounded"
         onClick={() => changeMonth("DEC")}
       >
         Back
       </button>
-      <p>{showMonthAndYear()}</p>
+      <p className="text-green-600  text-3xl font-bold">{showMonthAndYear()}</p>
       <button
         className=" px-6 bg-green-600  rounded"
         onClick={() => changeMonth("INC")}

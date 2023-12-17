@@ -1,12 +1,14 @@
 import React from "react";
 import { useGlobalContext } from "../context/CalenderContext";
+import CalenderHeader from "../components/CalenderHeader";
 
 const CalenderPage = () => {
   const { weekDays, monthArray } = useGlobalContext();
 
   return (
-    <div className=" bg-red-600">
-      <div className=" text-white  grid grid-cols-7 grid-rows-7  justify-items-center  pt-24 px-10  ">
+    <div className=" border-2 border-green-800 ">
+      <CalenderHeader></CalenderHeader>
+      <div className=" text-white  grid grid-cols-7 grid-rows-7  justify-items-center  mt-5 px-10  ">
         {weekDays.map((day, i) => {
           return (
             <div

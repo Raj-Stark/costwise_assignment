@@ -25,5 +25,9 @@ export const AppReducer = (state, action) => {
     return { ...state, monthArray: [...dummyArray] };
   }
 
+  if(action.type === "CHANGE_MONTH"){
+    
+  }
+
   return state;
 };

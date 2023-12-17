@@ -172,5 +172,12 @@ export const AppReducer = (state, action) => {
     };
   }
 
+  if (action.type === "CLOSE_EVENT_MODAL") {
+    return {
+      ...state,
+      showEventModal: false,
+    };
+  }
+
   return state;
 };

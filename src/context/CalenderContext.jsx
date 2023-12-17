@@ -54,6 +54,9 @@ export const CalenderContextProvider = ({ children }) => {
 
   const openAddEventModal = (data) => {
     dispatch({ type: "OPEN_ADD_EVENT_MODAL", payload: data });
+    if (state.showEventModal) {
+      closeEventModal();
+    }
   };
   const closeAddEventModal = () => {
     dispatch({ type: "CLOSE_ADD_EVENT_MODAL" });
@@ -68,10 +71,8 @@ export const CalenderContextProvider = ({ children }) => {
     dispatch({ type: "OPEN_EVENT_MODAL", payload: data });
   };
   const closeEventModal = (data) => {
-    dispatch({ type: "CLOSE_EVENT_MODAL"});
+    dispatch({ type: "CLOSE_EVENT_MODAL" });
   };
-
-  console.log(state.eventsArray);
 
   return (
     <AppContext.Provider
@@ -84,7 +85,7 @@ export const CalenderContextProvider = ({ children }) => {
         closeAddEventModal,
         createEvent,
         openEventModal,
-        closeEventModal
+        closeEventModal,
       }}
     >
       {children}

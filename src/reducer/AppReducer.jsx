@@ -105,12 +105,17 @@ export const AppReducer = (state, action) => {
     const data = action.payload;
     const { eventsArray } = state;
 
+     console.log(data);
+
     const dummyEventArray = [];
 
     const exisistingEvent = eventsArray.find((item) => item.id === data.id);
     if (!exisistingEvent) {
       const eventObj = {
         id: data.id,
+        date: data.date,
+        month: data.month,
+        year: data.year,
 
         allEvents: [
           {
@@ -153,21 +158,9 @@ export const AppReducer = (state, action) => {
   if (action.type === "OPEN_EVENT_MODAL") {
     const data = action.payload;
 
-    const { eventsArray } = state;
-    const modalEvent = eventsArray.find((item) => item.id === data.id);
-
-    // console.log(modalEvent);
-
-    const obj = {
-      date: data.date,
-      month: data.month,
-      year: data.year,
-      ...modalEvent,
-    };
-
     return {
       ...state,
-      currentModalEventData: obj,
+      currentEventModalId: data.id,
       showEventModal: true,
     };
   }
@@ -176,6 +169,35 @@ export const AppReducer = (state, action) => {
     return {
       ...state,
       showEventModal: false,
+    };
+  }
+  if (action.type === "DELETE_EVENT") {
+    const data = action.payload;
+
+    const { eventsArray } = state;
+
+    const dateOfEventDeleteObj = eventsArray.find(
+      (item) => item.id === data.dateId
+    );
+
+    const { allEvents } = dateOfEventDeleteObj;
+
+    const newAllEventArray = allEvents.filter((item) => {
+      return item.eventId !== data.eventId;
+    });
+
+    const newEventsArray = eventsArray.map((item) => {
+      if (item.id === data.dateId) {
+        item.allEvents = newAllEventArray;
+        return item;
+      }
+
+      return item;
+    });
+
+    return {
+      ...state,
+      eventsArray: [...newEventsArray],
     };
   }
 

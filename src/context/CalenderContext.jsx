@@ -32,6 +32,7 @@ const AppState = {
   currentMonthIdx: 0,
   dateObj: new Date(),
   currentDateOpenModalData: {},
+  currentEventModalId:"",
   currentModalEventData: {},
   eventsArray: [],
   addEventModal: false,
@@ -74,6 +75,16 @@ export const CalenderContextProvider = ({ children }) => {
     dispatch({ type: "CLOSE_EVENT_MODAL" });
   };
 
+  const deleteEvent = (data)=>{
+    dispatch({ type: "DELETE_EVENT",payload: data });
+  }
+
+
+  console.log(state.eventsArray);
+
+
+
+
   return (
     <AppContext.Provider
       value={{
@@ -86,6 +97,7 @@ export const CalenderContextProvider = ({ children }) => {
         createEvent,
         openEventModal,
         closeEventModal,
+        deleteEvent,
       }}
     >
       {children}

@@ -16,6 +16,9 @@ const AddEvent = () => {
     const eventData = {
       id: modalData.id,
       eventId: new Date().getTime(),
+      date:modalData.date,
+      month:months[modalData.month],
+      year:modalData.year,
       ...events,
     };
 

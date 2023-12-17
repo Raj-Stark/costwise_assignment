@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { LuClipboardEdit } from "react-icons/lu";
+import { useGlobalContext } from "../context/CalenderContext";
 
-const EventTab = ({ item }) => {
+const EventTab = ({ item, dateId }) => {
+  const { deleteEvent } = useGlobalContext();
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -13,9 +15,11 @@ const EventTab = ({ item }) => {
           <button onClick={() => setOpen(!open)}>
             {!open ? <FaAngleDown></FaAngleDown> : <FaAngleUp></FaAngleUp>}
           </button>
-          
+
           <LuClipboardEdit />
-          <MdDelete />
+          <button onClick={()=> deleteEvent({eventId: item.eventId , dateId:dateId})}>
+            <MdDelete />
+          </button>
         </div>
       </div>
       {open && (
@@ -23,8 +27,6 @@ const EventTab = ({ item }) => {
           {item.description}
         </div>
       )}
-
-
     </>
   );
 };

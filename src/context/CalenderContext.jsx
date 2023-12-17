@@ -28,11 +28,14 @@ const months = [
 
 const AppState = {
   monthArray: [],
+  wholeYearArray: [],
   currentMonthIdx: 0,
   dateObj: new Date(),
-  addEventModal: false,
   currentDateOpenModalData: {},
+  currentModalEventData: {},
   eventsArray: [],
+  addEventModal: false,
+  showEventModal: false,
 };
 export const CalenderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, AppState);
@@ -61,6 +64,13 @@ export const CalenderContextProvider = ({ children }) => {
     closeAddEventModal();
   };
 
+  const openEventModal = (data) => {
+    dispatch({ type: "OPEN_EVENT_MODAL", payload: data });
+  };
+  const closeEventModal = (data) => {
+    dispatch({ type: "CLOSE_EVENT_MODAL"});
+  };
+
   console.log(state.eventsArray);
 
   return (
@@ -73,6 +83,8 @@ export const CalenderContextProvider = ({ children }) => {
         openAddEventModal,
         closeAddEventModal,
         createEvent,
+        openEventModal,
+        closeEventModal
       }}
     >
       {children}

@@ -1,37 +1,56 @@
 import { uid } from "uid";
 export const AppReducer = (state, action) => {
   if (action.type === "RENDER_C_MONTH") {
-    const { dateObj } = state;
+    const { dateObj, currentMonthIdx, wholeYearArray } = state;
 
-    const month = dateObj.getMonth();
-    const year = dateObj.getFullYear();
+    const monthExist = wholeYearArray.find(
+      (item) => item.monthId === currentMonthIdx
+    );
 
-    // console.log(month, year);
+    if (!monthExist) {
+      const month = dateObj.getMonth();
+      const year = dateObj.getFullYear();
 
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const firstDayOfMonth = new Date(year, month, 1);
 
-    const firstDay = firstDayOfMonth.getDay();
+      const firstDay = firstDayOfMonth.getDay();
 
-    const paddingDays = firstDay;
+      const paddingDays = firstDay;
 
-    const dummyArray = [];
+      const dummyArray = [];
 
-    for (let i = 1; i <= paddingDays + daysInMonth; i++) {
-      if (i <= paddingDays) {
-        dummyArray.push("");
-      } else {
-        const dateTileObj = {
-          id: uid(),
-          date: i - paddingDays,
-          month,
-          year,
-        };
-        dummyArray.push(dateTileObj);
+      for (let i = 1; i <= paddingDays + daysInMonth; i++) {
+        if (i <= paddingDays) {
+          dummyArray.push("");
+        } else {
+          const dateTileObj = {
+            id: uid(),
+            date: i - paddingDays,
+            month,
+            year,
+          };
+          dummyArray.push(dateTileObj);
+        }
       }
-    }
 
-    return { ...state, monthArray: [...dummyArray] };
+      const monthObj = {
+        monthId: currentMonthIdx,
+        allDates: [...dummyArray],
+      };
+
+      return {
+        ...state,
+        wholeYearArray: [...state.wholeYearArray, monthObj],
+        monthArray: [...dummyArray],
+      };
+    } else {
+      return {
+        ...state,
+
+        monthArray: [...monthExist.allDates],
+      };
+    }
   }
 
   if (action.type === "CHANGE_MONTH") {
@@ -92,6 +111,7 @@ export const AppReducer = (state, action) => {
     if (!exisistingEvent) {
       const eventObj = {
         id: data.id,
+
         allEvents: [
           {
             eventId: data.eventId,
@@ -128,6 +148,28 @@ export const AppReducer = (state, action) => {
         eventsArray: newEventsArray,
       };
     }
+  }
+
+  if (action.type === "OPEN_EVENT_MODAL") {
+    const data = action.payload;
+
+    const { eventsArray } = state;
+    const modalEvent = eventsArray.find((item) => item.id === data.id);
+
+    // console.log(modalEvent);
+
+    const obj = {
+      date: data.date,
+      month: data.month,
+      year: data.year,
+      ...modalEvent,
+    };
+
+    return {
+      ...state,
+      currentModalEventData: obj,
+      showEventModal: true,
+    };
   }
 
   return state;

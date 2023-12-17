@@ -1,3 +1,4 @@
+import { uid } from "uid";
 export const AppReducer = (state, action) => {
   if (action.type === "RENDER_C_MONTH") {
     const { dateObj } = state;
@@ -21,7 +22,7 @@ export const AppReducer = (state, action) => {
         dummyArray.push("");
       } else {
         const dateTileObj = {
-          id: new Date().getTime().toString(),
+          id: uid(),
           date: i - paddingDays,
           month,
           year,
@@ -78,8 +79,55 @@ export const AppReducer = (state, action) => {
     };
   }
   if (action.type === "CLOSE_ADD_EVENT_MODAL") {
-    const data = action.payload;
     return { ...state, addEventModal: false };
+  }
+
+  if (action.type === "CREATE_EVENT") {
+    const data = action.payload;
+    const { eventsArray } = state;
+
+    const dummyEventArray = [];
+
+    const exisistingEvent = eventsArray.find((item) => item.id === data.id);
+    if (!exisistingEvent) {
+      const eventObj = {
+        id: data.id,
+        allEvents: [
+          {
+            eventId: data.eventId,
+            subject: data.subject,
+            description: data.description,
+          },
+        ],
+      };
+
+      dummyEventArray.push(eventObj);
+
+      return {
+        ...state,
+        eventsArray: [...state.eventsArray, ...dummyEventArray],
+      };
+    } else {
+      const allEventsObj = {
+        eventId: data.eventId,
+        subject: data.subject,
+        description: data.description,
+      };
+
+      const newEventsArray = eventsArray.map((item) => {
+        if (item.id === exisistingEvent.id) {
+          exisistingEvent.allEvents.push(allEventsObj);
+          return exisistingEvent;
+        }
+
+        return item;
+      });
+
+      return {
+        ...state,
+        eventsArray: newEventsArray,
+      };
+    }
   }
 
   return state;

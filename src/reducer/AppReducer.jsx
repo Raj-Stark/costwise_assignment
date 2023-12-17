@@ -20,7 +20,13 @@ export const AppReducer = (state, action) => {
       if (i <= paddingDays) {
         dummyArray.push("");
       } else {
-        dummyArray.push(i - paddingDays);
+        const dateTileObj = {
+          id: new Date().getTime().toString(),
+          date: i - paddingDays,
+          month,
+          year,
+        };
+        dummyArray.push(dateTileObj);
       }
     }
 
@@ -45,8 +51,7 @@ export const AppReducer = (state, action) => {
     let newMonth = currentMonth + counter;
     let newYear = currentYear;
 
-    
-    console.log(newMonth , newYear)
+    console.log(newMonth, newYear);
 
     if (newMonth < 0) {
       newMonth += 12;
@@ -56,12 +61,25 @@ export const AppReducer = (state, action) => {
       newYear++;
     }
 
-    console.log(newMonth , newYear)
+    console.log(newMonth, newYear);
 
     dateObj.setMonth(newMonth);
     dateObj.setFullYear(newYear);
 
     return { ...state, currentMonthIdx: counter };
+  }
+
+  if (action.type === "OPEN_ADD_EVENT_MODAL") {
+    const data = action.payload;
+    return {
+      ...state,
+      addEventModal: true,
+      currentDateOpenModalData: { ...data },
+    };
+  }
+  if (action.type === "CLOSE_ADD_EVENT_MODAL") {
+    const data = action.payload;
+    return { ...state, addEventModal: false };
   }
 
   return state;

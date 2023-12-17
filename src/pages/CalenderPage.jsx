@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobalContext } from "../context/CalenderContext";
 import CalenderHeader from "../components/CalenderHeader";
 import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import { MdAddBox } from "react-icons/md";
+import AddEvent from "../components/AddEvent";
 
 const CalenderPage = () => {
-  const { weekDays, monthArray } = useGlobalContext();
-
+  const { weekDays, monthArray ,openAddEventModal , addEventModal } =
+    useGlobalContext();
   return (
-    <div>
+    <div className=" relative">
       <CalenderHeader></CalenderHeader>
       <div className=" text-white  grid grid-cols-7 grid-rows-7  justify-items-center  mt-5 px-10  ">
         {weekDays.map((day, i) => {
@@ -29,10 +30,13 @@ const CalenderPage = () => {
                 item !== "" ? " bg-black" : "bg-white"
               } w-24 h-24  `}
             >
-              <p className=" px-1 py-1">{item}</p>
+              <p className=" px-1 py-1">{item.date}</p>
               {item !== "" && (
                 <div className=" flex justify-center">
-                  <button className=" text-xs  text-white hover:text-green-600">
+                  <button
+                    className=" text-xs  text-white hover:text-green-600"
+                    onClick={() => openAddEventModal(item)}
+                  >
                     <MdAddBox size={26} />
                   </button>
                 </div>
@@ -41,11 +45,9 @@ const CalenderPage = () => {
           );
         })}
       </div>
+      {addEventModal && <AddEvent></AddEvent>}
     </div>
   );
 };
 
 export default CalenderPage;
-
-{
-}

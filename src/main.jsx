@@ -1,15 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import { CalenderContextProvider } from './context/CalenderContext.jsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import { CalenderContextProvider } from "./context/CalenderContext.jsx";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-
     <CalenderContextProvider>
-
-    <App />
+      <App />
     </CalenderContextProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

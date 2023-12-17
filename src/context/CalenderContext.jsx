@@ -15,23 +15,27 @@ const weekDays = [
 const AppState = {
   monthArray: [],
   currentMonthIdx: 0,
+  dateObj: new Date(),
 };
 export const CalenderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, AppState);
 
-  let dt = new Date();
 
   useEffect(() => {
-    renderCurrentMonth(dt);
-  }, []);
+    renderCurrentMonth();
 
-  const renderCurrentMonth = (dateObj) => {
-    dispatch({ type: "RENDER_C_MONTH", payload: dateObj });
+    console.log(state.dateObj.getMonth());
+  }, [state.currentMonthIdx]);
+
+  const renderCurrentMonth = () => {
+    dispatch({ type: "RENDER_C_MONTH"});
   };
 
   const changeMonth = (data)=>{
     dispatch({ type: "CHANGE_MONTH" , payload:data});
   }
+
+  
 
   return (
     <AppContext.Provider value={{ ...state, weekDays , changeMonth}}>

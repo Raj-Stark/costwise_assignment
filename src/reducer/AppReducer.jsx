@@ -1,6 +1,6 @@
 export const AppReducer = (state, action) => {
   if (action.type === "RENDER_C_MONTH") {
-    const dateObj = action.payload;
+    const {dateObj} = state;
 
     const month = dateObj.getMonth();
     const year = dateObj.getFullYear();
@@ -25,8 +25,21 @@ export const AppReducer = (state, action) => {
     return { ...state, monthArray: [...dummyArray] };
   }
 
-  if(action.type === "CHANGE_MONTH"){
-    
+  if (action.type === "CHANGE_MONTH") {
+    const data = action.payload;
+    const {dateObj} = state;
+
+    let counter = state.currentMonthIdx;
+
+    if (data === "INC") {
+      counter = counter + 1;
+    } else if (data === "DEC") {
+      counter = counter - 1;
+    }
+
+    dateObj.setMonth(new Date().getMonth() + counter);
+
+    return { ...state, currentMonthIdx: counter };
   }
 
   return state;

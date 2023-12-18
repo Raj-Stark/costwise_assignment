@@ -87,6 +87,10 @@ const CalenderPage = () => {
           <ShowEvent></ShowEvent>
         </div>
       )}
+
+      <div className=" absolute bg-red-500 -z-50  top-5 w-full h-full flex  justify-end items-center">
+        <h2>Raj</h2>
+      </div>
     </div>
   );
 };

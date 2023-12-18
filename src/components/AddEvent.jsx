@@ -5,7 +5,6 @@ import { useGlobalContext } from "../context/CalenderContext";
 const AddEvent = () => {
   const {
     closeAddEventModal,
-    currentDateOpenModalData: modalData,
     months,
     createEvent,
     toEditEventId,
@@ -16,6 +15,11 @@ const AddEvent = () => {
   } = useGlobalContext();
   const [events, setEvents] = useState({ subject: "", description: ""});
   const [error ,setError] = useState(false);
+
+  const currentDateObj = monthArray.find(
+    (item) => item.id === addEventModalId
+  );
+
 
   useEffect(() => {
     if (isEditEvent) {
@@ -46,16 +50,13 @@ const AddEvent = () => {
     } 
       
 
-    const currentDateObj = monthArray.find(
-      (item) => item.id === addEventModalId
-    );
 
     if (isEditEvent) {
       const eventData = {
         id: currentDateObj.id,
         eventId: toEditEventId,
         date: currentDateObj.date,
-        month: months[currentDateObj.month],
+        month: months[currentDateObj.month].label,
         year: currentDateObj.year,
         ...events,
       };
@@ -66,7 +67,7 @@ const AddEvent = () => {
         id: currentDateObj.id,
         eventId: new Date().getTime(),
         date: currentDateObj.date,
-        month: months[currentDateObj.month],
+        month: months[currentDateObj.month].label,
         year: currentDateObj.year,
         ...events,
       };
@@ -90,9 +91,9 @@ const AddEvent = () => {
 
       <p>
         Date:{" "}
-        {`${modalData.date} ${
-          months[modalData.month] ? months[modalData.month] : [modalData.month]
-        } ${modalData.year} `}
+        {`${currentDateObj.date} ${
+          months[currentDateObj.month] ? months[currentDateObj.month].label : [currentDateObj.month]
+        } ${currentDateObj.year} `}
       </p>
 
       <form

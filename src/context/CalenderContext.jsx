@@ -12,18 +12,65 @@ const weekDays = [
   "Saturday",
 ];
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  {
+    id: 1,
+    label: "January",
+  },
+
+  {
+    id: 2,
+    label: "February",
+  },
+
+  {
+    id: 3,
+    label: "March",
+  },
+
+  {
+    id: 4,
+    label: "April",
+  },
+
+  {
+    id: 5,
+    label: "May",
+  },
+
+  {
+    id: -6,
+    label: "June",
+  },
+
+  {
+    id: -5,
+    label: "July",
+  },
+
+  {
+    id: -4,
+    label: "August",
+  },
+
+  {
+    id: -3,
+    label: "September",
+  },
+
+  {
+    id: -2,
+    label: "October",
+  },
+
+  {
+    id: -1,
+    label: "November",
+  },
+
+  {
+    id: 0,
+    label: "December",
+  },
 ];
 
 const AppState = {
@@ -31,13 +78,13 @@ const AppState = {
   wholeYearArray: [],
   currentMonthIdx: 0,
   dateObj: new Date(),
-  addEventModalId:"",
+  addEventModalId: "",
   showEventModalId: "",
   eventsArray: [],
   addEventModal: false,
   showEventModal: false,
   toEditEventId: "",
-  isEditEvent:false,
+  isEditEvent: false,
 };
 export const CalenderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, AppState);
@@ -84,8 +131,11 @@ export const CalenderContextProvider = ({ children }) => {
     dispatch({ type: "EDIT_EVENT", payload: data });
   };
 
+  const selectMonthFromDropdown = (data)=>{
+    dispatch({ type: "SELECT_MONTH", payload: data });
+  }
 
-  console.log(state.eventsArray);
+  console.log(state.currentMonthIdx);
 
   return (
     <AppContext.Provider
@@ -101,6 +151,7 @@ export const CalenderContextProvider = ({ children }) => {
         closeEventModal,
         deleteEvent,
         editEvent,
+        selectMonthFromDropdown,
       }}
     >
       {children}

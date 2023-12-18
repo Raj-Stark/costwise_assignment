@@ -1,11 +1,13 @@
 import { uid } from "uid";
 export const AppReducer = (state, action) => {
   if (action.type === "RENDER_C_MONTH") {
+
     const { dateObj, currentMonthIdx, wholeYearArray } = state;
 
     const monthExist = wholeYearArray.find(
       (item) => item.monthId === currentMonthIdx
     );
+
 
     if (!monthExist) {
       const month = dateObj.getMonth();
@@ -254,6 +256,39 @@ export const AppReducer = (state, action) => {
       showEventModal: false,
       isEditEvent: true,
       addEventModalId:data.dateId,
+    };
+  }
+
+  if(action.type === "SELECT_MONTH"){
+    const data = action.payload;
+
+    const { dateObj } = state;
+
+    let counter = data.id;
+
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    let newMonth = currentMonth + counter;
+    let newYear = currentYear;
+
+    if (newMonth < 0) {
+      newMonth += 12;
+      newYear--;
+    } else if (newMonth > 11) {
+      newMonth -= 12;
+      newYear++;
+    }
+
+
+    dateObj.setMonth(newMonth);
+    dateObj.setFullYear(newYear);
+
+
+
+    return {
+      ...state,
+      currentMonthIdx: data.id,
     };
   }
 

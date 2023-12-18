@@ -5,6 +5,7 @@ import { BsFillCalendar2CheckFill } from "react-icons/bs";
 import { MdAddBox } from "react-icons/md";
 import AddEvent from "../components/AddEvent";
 import ShowEvent from "../components/ShowEvent";
+import CustomSlider from "../components/CustomSlider";
 
 const CalenderPage = () => {
   const {
@@ -76,6 +77,8 @@ const CalenderPage = () => {
             </div>
           );
         })}
+
+   
       </div>
       {addEventModal && (
         <div className="backdrop-blur-sm absolute top-5 w-full h-full flex justify-center items-center">
@@ -87,10 +90,6 @@ const CalenderPage = () => {
           <ShowEvent></ShowEvent>
         </div>
       )}
-
-      <div className=" absolute bg-red-500 -z-50  top-5 w-full h-full flex  justify-end items-center">
-        <h2>Raj</h2>
-      </div>
     </div>
   );
 };

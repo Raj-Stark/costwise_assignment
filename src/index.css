@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.slider {
+  transform: rotate(90deg);
+  background-color: green;
+}

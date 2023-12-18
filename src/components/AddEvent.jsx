@@ -15,6 +15,7 @@ const AddEvent = () => {
     addEventModalId,
   } = useGlobalContext();
   const [events, setEvents] = useState({ subject: "", description: ""});
+  const [error ,setError] = useState(false);
 
   useEffect(() => {
     if (isEditEvent) {
@@ -38,6 +39,12 @@ const AddEvent = () => {
 
   const handleForm = (e) => {
     e.preventDefault();
+
+    if(events.subject === "" || events.description === ""){
+      setError(true);
+      return;
+    } 
+      
 
     const currentDateObj = monthArray.find(
       (item) => item.id === addEventModalId
@@ -66,6 +73,8 @@ const AddEvent = () => {
 
       createEvent(eventData);
     }
+
+    setError(false);
   };
 
   return (
@@ -97,6 +106,7 @@ const AddEvent = () => {
           value={events.subject}
           onChange={(e) => setEvents({ ...events, subject: e.target.value })}
         />
+        {error && <p className=" text-red-600">Pleaser enter some value !!!</p>}
         <textarea
           placeholder="Description"
           rows="4"
@@ -106,6 +116,7 @@ const AddEvent = () => {
             setEvents({ ...events, description: e.target.value })
           }
         ></textarea>
+          {error && <p className=" text-red-600">Pleaser enter some value !!!</p>}
         <button
           className="  bg-green-500 py-2 rounded-md border-2 border-white shadow-lg  text-white "
           type="Submit"

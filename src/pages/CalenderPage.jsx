@@ -22,12 +22,14 @@ const CalenderPage = () => {
   const today = date.getDate();
   return (
     <div className="relative">
-      <CalenderHeader></CalenderHeader>
-      <div className=" text-white  grid grid-cols-7 grid-rows-7  justify-items-center  mt-5 px-10  ">
+      <div className=" text-white  grid grid-cols-7 grid-rows-8  justify-items-center  mt-5 px-10 ">
+        <div className=" col-span-7 mb-10">
+          <CalenderHeader></CalenderHeader>
+        </div>
         {weekDays.map((day, i) => {
           return (
             <div
-              className=" p-2 text-white  text-lg  w-28  text-center bg-green-600 rounded-full "
+              className=" p-1 text-white  w-10  text-[8px] md:text-sm  lg:text-lg lg:w-28 md:w-20 lg:p-2  text-center bg-green-600 rounded-full "
               key={i}
             >
               {day}
@@ -46,26 +48,28 @@ const CalenderPage = () => {
                 item.date === today &&
                 currentMonthIdx === 0 &&
                 "border-4 border-green-500 text-green-500"
-              }${item !== "" ? " bg-black" : "bg-white"} w-24 h-24  `}
+              }${
+                item !== "" ? " bg-black" : "bg-white"
+              } w-8 h-8 md:w-18 md:h-18 lg:w-24 lg:h-24  `}
             >
-              <p className=" px-1 py-1">{item.date}</p>
+              <p className=" px-1 text-sm py-1 md:text-lg ">{item.date}</p>
               {item !== "" && !eventExist && (
                 <div className=" flex justify-center">
                   <button
-                    className=" text-xs  text-white hover:text-green-600"
+                    className=" text-[6px] md:text-lg xl:text-xl   text-white hover:text-green-600 "
                     onClick={() => openAddEventModal(item)}
                   >
-                    <MdAddBox size={26} />
+                    <MdAddBox />
                   </button>
                 </div>
               )}
               {item !== "" && eventExist && (
                 <div className=" flex justify-center">
                   <button
-                    className=" text-xs  text-green-500"
+                    className=" text-[6px] md:text-lg xl:text-xl   text-green-500"
                     onClick={() => openEventModal(item)}
                   >
-                    <BsFillCalendar2CheckFill size={22} />
+                    <BsFillCalendar2CheckFill />
                   </button>
                 </div>
               )}
@@ -78,9 +82,11 @@ const CalenderPage = () => {
           <AddEvent></AddEvent>
         </div>
       )}
-      {showEventModal && <div className="backdrop-blur-sm absolute top-5 w-full h-full flex justify-center items-center">
+      {showEventModal && (
+        <div className="backdrop-blur-sm absolute top-5 w-full h-full flex justify-center items-center">
           <ShowEvent></ShowEvent>
-        </div>}
+        </div>
+      )}
     </div>
   );
 };

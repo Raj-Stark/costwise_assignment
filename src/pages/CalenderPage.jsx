@@ -50,7 +50,7 @@ const CalenderPage = () => {
                 "border-4 border-green-500 text-green-500"
               }${
                 item !== "" ? " bg-black" : "bg-white"
-              } w-8 h-8 md:w-18 md:h-18 lg:w-24 lg:h-24  `}
+              } w-8 h-8 md:w-14 md:h-14 lg:w-24 lg:h-24  `}
             >
               <p className=" px-1 text-sm py-1 md:text-lg ">{item.date}</p>
               {item !== "" && !eventExist && (

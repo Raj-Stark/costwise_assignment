@@ -89,10 +89,12 @@ export const AppReducer = (state, action) => {
 
   if (action.type === "OPEN_ADD_EVENT_MODAL") {
     const data = action.payload;
+
     return {
       ...state,
       addEventModal: true,
       currentDateOpenModalData: { ...data },
+      addEventModalId:data.id,
     };
   }
   if (action.type === "CLOSE_ADD_EVENT_MODAL") {
@@ -103,13 +105,12 @@ export const AppReducer = (state, action) => {
     const data = action.payload;
     const { eventsArray, isEditEvent } = state;
 
-    console.log(data);
 
     const dummyEventArray = [];
 
     const exisistingEvent = eventsArray.find((item) => item.id === data.id);
 
-    console.log(exisistingEvent);
+  
     if (!exisistingEvent) {
       const eventObj = {
         id: data.id,
@@ -156,7 +157,7 @@ export const AppReducer = (state, action) => {
           ...state,
           eventsArray: newEventsArray,
           isEditEvent: false,
-          toEditEventId: "",
+          toEditEventId: "", 
         };
       }
 
@@ -187,7 +188,7 @@ export const AppReducer = (state, action) => {
 
     return {
       ...state,
-      currentEventModalId: data.id,
+      showEventModalId: data.id,
       showEventModal: true,
     };
   }
@@ -232,6 +233,8 @@ export const AppReducer = (state, action) => {
 
   if (action.type === "EDIT_EVENT") {
     const data = action.payload;
+
+    console.log(data);
     const { eventsArray } = state;
 
     const dateOfEventEditObj = eventsArray.find(
@@ -250,6 +253,7 @@ export const AppReducer = (state, action) => {
       addEventModal: true,
       showEventModal: false,
       isEditEvent: true,
+      addEventModalId:data.dateId,
     };
   }
 

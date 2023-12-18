@@ -11,14 +11,18 @@ const AddEvent = () => {
     toEditEventId,
     eventsArray,
     isEditEvent,
+    monthArray,
+    addEventModalId,
   } = useGlobalContext();
-  const [events, setEvents] = useState({ subject: "", description: "" });
+  const [events, setEvents] = useState({ subject: "", description: ""});
 
   useEffect(() => {
     if (isEditEvent) {
       const toEditEventDate = eventsArray.find(
-        (item) => item.id === modalData.id
+        (item) => item.id === addEventModalId,
       );
+
+      console.log(toEditEventDate);
       const { allEvents } = toEditEventDate;
 
       const editEvent = allEvents.find(
@@ -35,24 +39,28 @@ const AddEvent = () => {
   const handleForm = (e) => {
     e.preventDefault();
 
+    const currentDateObj = monthArray.find(
+      (item) => item.id === addEventModalId
+    );
+
     if (isEditEvent) {
       const eventData = {
-        id: modalData.id,
+        id: currentDateObj.id,
         eventId: toEditEventId,
-        date: modalData.date,
-        month: months[modalData.month],
-        year: modalData.year,
+        date: currentDateObj.date,
+        month: months[currentDateObj.month],
+        year: currentDateObj.year,
         ...events,
       };
 
       createEvent(eventData);
     } else {
       const eventData = {
-        id: modalData.id,
+        id: currentDateObj.id,
         eventId: new Date().getTime(),
-        date: modalData.date,
-        month: months[modalData.month],
-        year: modalData.year,
+        date: currentDateObj.date,
+        month: months[currentDateObj.month],
+        year: currentDateObj.year,
         ...events,
       };
 
@@ -63,7 +71,9 @@ const AddEvent = () => {
   return (
     <div className=" border-2 border-white shadow-xl  h-auto w-[400px]  p-6 py-4 bg-black text-white rounded-md">
       <div className=" flex justify-between">
-        <h2 className=" text-lg font-medium">{isEditEvent ? "Edit Event" :"Add Event"}</h2>
+        <h2 className=" text-lg font-medium">
+          {isEditEvent ? "Edit Event" : "Add Event"}
+        </h2>
         <button className=" text-red-500" onClick={() => closeAddEventModal()}>
           <FaWindowClose size={26}></FaWindowClose>
         </button>

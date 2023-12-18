@@ -5,10 +5,10 @@ import { useGlobalContext } from "../context/CalenderContext";
 import EventTab from "./EventTab";
 
 const ShowEvent = () => {
-  const { eventsArray, currentEventModalId, months, closeEventModal, openAddEventModal  } =
+  const { eventsArray, showEventModalId, months, closeEventModal, openAddEventModal  } =
     useGlobalContext();
 
-    const currentDateEventData = eventsArray.find((item)=> item.id === currentEventModalId);
+    const currentDateEventData = eventsArray.find((item)=> item.id === showEventModalId);
 
     if(!currentDateEventData){
        closeEventModal();

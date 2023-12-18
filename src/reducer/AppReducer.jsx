@@ -105,7 +105,7 @@ export const AppReducer = (state, action) => {
     const data = action.payload;
     const { eventsArray } = state;
 
-     console.log(data);
+    console.log(data);
 
     const dummyEventArray = [];
 
@@ -193,11 +193,20 @@ export const AppReducer = (state, action) => {
       }
 
       return item;
-    });
+    })
+
+    const raj = newEventsArray.filter((item)=> item.allEvents.length > 0);
+
+
+    
+
+
+    console.log(raj);
+
 
     return {
       ...state,
-      eventsArray: [...newEventsArray],
+      eventsArray: [...raj],
     };
   }
 

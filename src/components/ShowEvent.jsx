@@ -10,6 +10,11 @@ const ShowEvent = () => {
 
     const currentDateEventData = eventsArray.find((item)=> item.id === currentEventModalId);
 
+    if(!currentDateEventData){
+       return;
+    }
+        
+
   const { id, allEvents, date, month, year } = currentDateEventData;
 
   return (
@@ -29,7 +34,7 @@ const ShowEvent = () => {
 
       <button
         className="mt-20 bg-green-500 inline-block p-1 px-2 rounded-md"
-        onClick={() => openAddEventModal(currentModalEventData)}
+        onClick={() => openAddEventModal(currentDateEventData)}
       >
         Add More Events
       </button>

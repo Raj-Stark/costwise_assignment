@@ -11,14 +11,17 @@ const ShowEvent = () => {
     const currentDateEventData = eventsArray.find((item)=> item.id === currentEventModalId);
 
     if(!currentDateEventData){
+       closeEventModal();
        return;
     }
         
 
   const { id, allEvents, date, month, year } = currentDateEventData;
 
+  console.log(currentDateEventData)
+
   return (
-    <div className=" backdrop-blur-xl shadow-xl absolute top-10 h-auto w-[400px]  border-2 border-black p-6 py-6 bg-black text-white rounded-md">
+    <div className="  h-auto w-[400px]  border-2 border-white p-6 py-4 bg-black text-white rounded-md">
       <div className=" flex justify-between text-white">
         <h2>Events for {`${date} ${month}  ${year}`}</h2>
         <button className=" text-red-500" onClick={() => closeEventModal()}>

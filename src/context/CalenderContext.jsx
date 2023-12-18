@@ -32,11 +32,13 @@ const AppState = {
   currentMonthIdx: 0,
   dateObj: new Date(),
   currentDateOpenModalData: {},
-  currentEventModalId:"",
+  currentEventModalId: "",
   currentModalEventData: {},
   eventsArray: [],
   addEventModal: false,
   showEventModal: false,
+  toEditEventId: "",
+  isEditEvent:false,
 };
 export const CalenderContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, AppState);
@@ -75,15 +77,16 @@ export const CalenderContextProvider = ({ children }) => {
     dispatch({ type: "CLOSE_EVENT_MODAL" });
   };
 
-  const deleteEvent = (data)=>{
-    dispatch({ type: "DELETE_EVENT",payload: data });
-  }
+  const deleteEvent = (data) => {
+    dispatch({ type: "DELETE_EVENT", payload: data });
+  };
+
+  const editEvent = (data) => {
+    dispatch({ type: "EDIT_EVENT", payload: data });
+  };
 
 
   console.log(state.eventsArray);
-
-
-
 
   return (
     <AppContext.Provider
@@ -98,6 +101,7 @@ export const CalenderContextProvider = ({ children }) => {
         openEventModal,
         closeEventModal,
         deleteEvent,
+        editEvent,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { LuClipboardEdit } from "react-icons/lu";
 import { useGlobalContext } from "../context/CalenderContext";
 
 const EventTab = ({ item, dateId }) => {
-  const { deleteEvent } = useGlobalContext();
+  const { deleteEvent, editEvent } = useGlobalContext();
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -16,8 +16,19 @@ const EventTab = ({ item, dateId }) => {
             {!open ? <FaAngleDown></FaAngleDown> : <FaAngleUp></FaAngleUp>}
           </button>
 
-          <LuClipboardEdit />
-          <button onClick={()=> deleteEvent({eventId: item.eventId , dateId:dateId})}>
+          <button
+            onClick={() =>
+              editEvent({ eventId: item.eventId, dateId: dateId })
+            }
+          >
+            <LuClipboardEdit />
+          </button>
+
+          <button
+            onClick={() =>
+              deleteEvent({ eventId: item.eventId, dateId: dateId })
+            }
+          >
             <MdDelete />
           </button>
         </div>

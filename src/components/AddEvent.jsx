@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { useGlobalContext } from "../context/CalenderContext";
 
@@ -8,29 +8,62 @@ const AddEvent = () => {
     currentDateOpenModalData: modalData,
     months,
     createEvent,
+    toEditEventId,
+    eventsArray,
+    isEditEvent,
   } = useGlobalContext();
   const [events, setEvents] = useState({ subject: "", description: "" });
 
+  useEffect(() => {
+    if (isEditEvent) {
+      const toEditEventDate = eventsArray.find(
+        (item) => item.id === modalData.id
+      );
+      const { allEvents } = toEditEventDate;
+
+      const editEvent = allEvents.find(
+        (item) => item.eventId === toEditEventId
+      );
+
+      setEvents({
+        subject: editEvent.subject,
+        description: editEvent.description,
+      });
+    }
+  }, [isEditEvent]);
+
   const handleForm = (e) => {
     e.preventDefault();
-    const eventData = {
-      id: modalData.id,
-      eventId: new Date().getTime(),
-      date:modalData.date,
-      month:months[modalData.month],
-      year:modalData.year,
-      ...events,
-    };
 
-  
+    if (isEditEvent) {
+      const eventData = {
+        id: modalData.id,
+        eventId: toEditEventId,
+        date: modalData.date,
+        month: months[modalData.month],
+        year: modalData.year,
+        ...events,
+      };
 
-    createEvent(eventData);
+      createEvent(eventData);
+    } else {
+      const eventData = {
+        id: modalData.id,
+        eventId: new Date().getTime(),
+        date: modalData.date,
+        month: months[modalData.month],
+        year: modalData.year,
+        ...events,
+      };
+
+      createEvent(eventData);
+    }
   };
 
   return (
-    <div className=" backdrop-blur-xl shadow-xl absolute top-10 h-auto w-[400px]  border-2 border-black p-6 py-6 bg-black text-white rounded-md">
+    <div className=" border-2 border-white shadow-xl  h-auto w-[400px]  p-6 py-4 bg-black text-white rounded-md">
       <div className=" flex justify-between">
-        <h2 className=" text-lg font-medium">Add Event</h2>
+        <h2 className=" text-lg font-medium">{isEditEvent ? "Edit Event" :"Add Event"}</h2>
         <button className=" text-red-500" onClick={() => closeAddEventModal()}>
           <FaWindowClose size={26}></FaWindowClose>
         </button>
@@ -38,7 +71,9 @@ const AddEvent = () => {
 
       <p>
         Date:{" "}
-        {`${modalData.date} ${months[modalData.month]} ${modalData.year} `}
+        {`${modalData.date} ${
+          months[modalData.month] ? months[modalData.month] : [modalData.month]
+        } ${modalData.year} `}
       </p>
 
       <form
@@ -65,7 +100,7 @@ const AddEvent = () => {
           className="  bg-green-500 py-2 rounded-md border-2 border-white shadow-lg  text-white "
           type="Submit"
         >
-          Submit
+          {isEditEvent ? "Edit" : "Submit"}
         </button>
       </form>
     </div>

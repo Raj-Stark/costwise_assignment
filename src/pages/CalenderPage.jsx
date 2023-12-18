@@ -14,10 +14,14 @@ const CalenderPage = () => {
     addEventModal,
     eventsArray,
     openEventModal,
-    showEventModal
+    showEventModal,
+    currentMonthIdx,
   } = useGlobalContext();
+
+  const date = new Date();
+  const today = date.getDate();
   return (
-    <div className=" relative">
+    <div className="relative">
       <CalenderHeader></CalenderHeader>
       <div className=" text-white  grid grid-cols-7 grid-rows-7  justify-items-center  mt-5 px-10  ">
         {weekDays.map((day, i) => {
@@ -39,8 +43,10 @@ const CalenderPage = () => {
             <div
               key={i}
               className={` mt-4 rounded  text-xl ${
-                item !== "" ? " bg-black" : "bg-white"
-              } w-24 h-24  `}
+                item.date === today &&
+                currentMonthIdx === 0 &&
+                "border-4 border-green-500 text-green-500"
+              }${item !== "" ? " bg-black" : "bg-white"} w-24 h-24  `}
             >
               <p className=" px-1 py-1">{item.date}</p>
               {item !== "" && !eventExist && (
@@ -67,8 +73,14 @@ const CalenderPage = () => {
           );
         })}
       </div>
-      {addEventModal && <AddEvent></AddEvent>}
-      {showEventModal && <ShowEvent></ShowEvent>}
+      {addEventModal && (
+        <div className="backdrop-blur-sm absolute top-5 w-full h-full flex justify-center items-center">
+          <AddEvent></AddEvent>
+        </div>
+      )}
+      {showEventModal && <div className="backdrop-blur-sm absolute top-5 w-full h-full flex justify-center items-center">
+          <ShowEvent></ShowEvent>
+        </div>}
     </div>
   );
 };

@@ -71,8 +71,6 @@ export const AppReducer = (state, action) => {
     let newMonth = currentMonth + counter;
     let newYear = currentYear;
 
-    console.log(newMonth, newYear);
-
     if (newMonth < 0) {
       newMonth += 12;
       newYear--;
@@ -103,13 +101,15 @@ export const AppReducer = (state, action) => {
 
   if (action.type === "CREATE_EVENT") {
     const data = action.payload;
-    const { eventsArray } = state;
+    const { eventsArray, isEditEvent } = state;
 
     console.log(data);
 
     const dummyEventArray = [];
 
     const exisistingEvent = eventsArray.find((item) => item.id === data.id);
+
+    console.log(exisistingEvent);
     if (!exisistingEvent) {
       const eventObj = {
         id: data.id,
@@ -133,6 +133,33 @@ export const AppReducer = (state, action) => {
         eventsArray: [...state.eventsArray, ...dummyEventArray],
       };
     } else {
+      if (isEditEvent) {
+        const newEventsArray = eventsArray.map((item) => {
+          if (item.id === exisistingEvent.id) {
+            exisistingEvent.allEvents.map((item) => {
+              if (item.eventId === data.eventId) {
+                item.subject = data.subject;
+                item.description = data.description;
+
+                return item;
+              }
+
+              return item;
+            });
+            return exisistingEvent;
+          }
+
+          return item;
+        });
+
+        return {
+          ...state,
+          eventsArray: newEventsArray,
+          isEditEvent: false,
+          toEditEventId: "",
+        };
+      }
+
       const allEventsObj = {
         eventId: data.eventId,
         subject: data.subject,
@@ -186,27 +213,43 @@ export const AppReducer = (state, action) => {
       return item.eventId !== data.eventId;
     });
 
-    const newEventsArray = eventsArray.map((item) => {
-      if (item.id === data.dateId) {
-        item.allEvents = newAllEventArray;
+    const newEventsArray = eventsArray
+      .map((item) => {
+        if (item.id === data.dateId) {
+          item.allEvents = newAllEventArray;
+          return item;
+        }
+
         return item;
-      }
-
-      return item;
-    })
-
-    const raj = newEventsArray.filter((item)=> item.allEvents.length > 0);
-
-
-    
-
-
-    console.log(raj);
-
+      })
+      .filter((item) => item.allEvents.length > 0);
 
     return {
       ...state,
-      eventsArray: [...raj],
+      eventsArray: [...newEventsArray],
+    };
+  }
+
+  if (action.type === "EDIT_EVENT") {
+    const data = action.payload;
+    const { eventsArray } = state;
+
+    const dateOfEventEditObj = eventsArray.find(
+      (item) => item.id === data.dateId
+    );
+
+    const { allEvents } = dateOfEventEditObj;
+
+    const toEditEventItem = allEvents.find(
+      (item) => item.eventId === data.eventId
+    );
+
+    return {
+      ...state,
+      toEditEventId: toEditEventItem.eventId,
+      addEventModal: true,
+      showEventModal: false,
+      isEditEvent: true,
     };
   }
 
